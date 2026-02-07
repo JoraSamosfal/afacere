@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="ro" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>printIT - Printare 3D Profesională</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Orbitron:wght@700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --yellow-electric: #FFE500;
+      --bg-black: #0a0a0a;
+      --gray-dark: #1a1a1a;
+      --gray-medium: #2a2a2a;
+      --blue-neon: #00D4FF;
+      --orange-accent: #FF6B00;
+    }
+
+    .font-orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .font-space {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .gradient-hero {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    }
+
+    .glow-yellow {
+      box-shadow: 0 0 30px rgba(255, 229, 0, 0.4), 0 0 60px rgba(255, 229, 0, 0.2);
+    }
+
+    .glow-blue {
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+
+    .card-3d {
+      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+      border: 1px solid #333;
+      transition: all 0.3s ease;
+    }
+
+    .card-3d:hover {
+      transform: translateY(-5px);
+      border-color: var(--yellow-electric);
+      box-shadow: 0 10px 40px rgba(255, 229, 0, 0.15);
+    }
+
+    .lego-pattern {
+      background-image:
+        radial-gradient(circle at 20px 20px, #2a2a2a 8px, transparent 8px),
+        radial-gradient(circle at 60px 60px, #2a2a2a 8px, transparent 8px);
+      background-size: 80px 80px;
+    }
+
+    .slider-container {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slide-item {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 12px 16px;
+      background: linear-gradient(to top, #0a0a0a 80%, transparent);
+    }
+
+    @media (min-width: 768px) {
+      .sticky-cta {
+        display: none;
+      }
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse-slow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .hero-image {
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255, 229, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--yellow-electric);
+      box-shadow: 0 0 0 3px rgba(255, 229, 0, 0.2);
+    }
+
+    .form-section {
+      background: linear-gradient(135deg, #FFE500 0%, #FFC800 100%);
+    }
+
+    .trust-bar {
+      background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-space bg-[#0a0a0a] text-white overflow-x-hidden">
+  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Header -->
+   <header class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-2">
+      <svg width="40" height="40" viewbox="0 0 40 40" fill="none" class="animate-float"><rect x="5" y="5" width="12" height="12" rx="2" fill="#FFE500" /> <rect x="20" y="5" width="12" height="12" rx="2" fill="#00D4FF" /> <rect x="5" y="20" width="12" height="12" rx="2" fill="#FF6B00" /> <rect x="20" y="20" width="12" height="12" rx="2" fill="#FFE500" /> <circle cx="11" cy="11" r="3" fill="#0a0a0a" /> <circle cx="26" cy="11" r="3" fill="#0a0a0a" /> <circle cx="11" cy="26" r="3" fill="#0a0a0a" /> <circle cx="26" cy="26" r="3" fill="#0a0a0a" />
+      </svg><span class="font-orbitron text-xl font-bold">print<span class="text-[#FFE500]">IT</span></span>
+     </div><a href="#contact-section" class="hidden md:block bg-[#FFE500] text-black font-bold px-6 py-2 rounded-lg hover:bg-[#FFC800] transition-all glow-yellow"> Solicită ofertă </a>
+    </div>
+   </header><!-- Hero Section -->
+   <section class="gradient-hero min-h-[100%] pt-20 pb-8 md:pb-16 relative overflow-hidden"><!-- Background Elements -->
+    <div class="absolute inset-0 lego-pattern opacity-20"></div>
+    <div class="absolute top-20 right-0 w-64 h-64 bg-[#FFE500]/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#00D4FF]/5 rounded-full blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+     <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16"><!-- Text Content -->
+      <div class="flex-1 text-center lg:text-left pt-8 md:pt-16">
+       <h1 id="hero-title" class="font-orbitron text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Transformăm ideile tale în <span class="text-[#FFE500]">obiecte reale</span> cu printare 3D.</h1>
+       <p id="hero-subtitle" class="text-gray-400 text-lg md:text-xl mb-8 max-w-xl mx-auto lg:mx-0">Modelare 3D • Printare profesională • Livrare gratuită în România</p><a href="#contact-section" id="cta-button" class="inline-block bg-[#FFE500] text-black font-bold text-lg px-8 py-4 rounded-xl hover:bg-[#FFC800] transition-all glow-yellow"> Primește ofertă gratuită </a>
+      </div><!-- Hero Visual -->
+      <div class="flex-1 w-full max-w-lg">
+       <div class="hero-image rounded-2xl p-6 md:p-10 relative"><!-- 3D Printer SVG Illustration -->
+        <svg viewbox="0 0 300 280" class="w-full h-auto"><!-- Printer Frame --> <rect x="30" y="60" width="240" height="200" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="2" /> <rect x="40" y="70" width="220" height="140" rx="5" fill="#0a0a0a" /> <!-- Print Bed --> <rect x="60" y="180" width="180" height="15" rx="3" fill="#2a2a2a" /> <rect x="70" y="175" width="160" height="8" rx="2" fill="#333" /> <!-- Printed Object - Colorful Blocks --> <rect x="100" y="145" width="30" height="30" rx="3" fill="#FFE500">
+          <animate attributename="height" values="0;30;30" dur="2s" repeatcount="indefinite" />
+          <animate attributename="y" values="175;145;145" dur="2s" repeatcount="indefinite" />
+         </rect> <circle cx="115" cy="155" r="6" fill="#0a0a0a" opacity="0.8" /> <rect x="135" y="130" width="30" height="45" rx="3" fill="#00D4FF">
+          <animate attributename="height" values="0;45;45" dur="2s" begin="0.5s" repeatcount="indefinite" />
+          <animate attributename="y" values="175;130;130" dur="2s" begin="0.5s" repeatcount="indefinite" />
+         </rect> <circle cx="150" cy="145" r="6" fill="#0a0a0a" opacity="0.8" /> <rect x="170" y="150" width="30" height="25" rx="3" fill="#FF6B00">
+          <animate attributename="height" values="0;25;25" dur="2s" begin="1s" repeatcount="indefinite" />
+          <animate attributename="y" values="175;150;150" dur="2s" begin="1s" repeatcount="indefinite" />
+         </rect> <circle cx="185" cy="158" r="6" fill="#0a0a0a" opacity="0.8" /> <!-- Print Head --> <rect x="90" y="85" width="120" height="20" rx="5" fill="#2a2a2a" /> <rect x="140" y="100" width="20" height="30" rx="3" fill="#FFE500">
+          <animate attributename="x" values="90;180;90" dur="3s" repeatcount="indefinite" />
+         </rect> <!-- Filament --> <line x1="150" y1="20" x2="150" y2="85" stroke="#FFE500" stroke-width="3" stroke-dasharray="5,5">
+          <animate attributename="stroke-dashoffset" values="0;10" dur="0.5s" repeatcount="indefinite" />
+         </line> <!-- Spool --> <circle cx="150" cy="15" r="12" fill="#2a2a2a" stroke="#FFE500" stroke-width="2" /> <circle cx="150" cy="15" r="5" fill="#0a0a0a" /> <!-- Status Lights --> <circle cx="55" cy="85" r="4" fill="#00FF00" class="animate-pulse-slow" /> <circle cx="55" cy="100" r="4" fill="#00D4FF" /> <!-- Screen --> <rect x="200" y="220" width="60" height="30" rx="3" fill="#00D4FF" opacity="0.3" /> <text x="210" y="240" fill="#00D4FF" font-size="10" font-family="monospace">
+          87%
+         </text>
+        </svg><!-- Floating Elements -->
+        <div class="absolute -top-4 -right-4 w-12 h-12 bg-[#FFE500] rounded-lg flex items-center justify-center animate-float" style="animation-delay: 0.5s;">
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#0a0a0a" /> <path d="M2 17L12 22L22 17" stroke="#0a0a0a" stroke-width="2" /> <path d="M2 12L12 17L22 12" stroke="#0a0a0a" stroke-width="2" />
+         </svg>
+        </div>
+        <div class="absolute -bottom-4 -left-4 w-10 h-10 bg-[#00D4FF] rounded-full flex items-center justify-center animate-float" style="animation-delay: 1s;"><span class="text-black font-bold text-sm">3D</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Trust Bar -->
+   <section class="trust-bar py-6 border-y border-gray-800">
+    <div class="max-w-7xl mx-auto px-4">
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+      <div class="flex items-center gap-3 justify-center">
+       <div class="w-10 h-10 rounded-lg bg-[#FFE500]/20 flex items-center justify-center">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FFE500" stroke-width="2"><path d="M5 12H19M12 5L19 12L12 19" />
+        </svg>
+       </div><span class="text-sm md:text-base text-gray-300">Livrare gratuită</span>
+      </div>
+      <div class="flex items-center gap-3 justify-center">
+       <div class="w-10 h-10 rounded-lg bg-[#00D4FF]/20 flex items-center justify-center">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2"><circle cx="12" cy="12" r="10" /> <path d="M12 6V12L16 14" />
+        </svg>
+       </div><span class="text-sm md:text-base text-gray-300">Răspuns în 24h</span>
+      </div>
+      <div class="flex items-center gap-3 justify-center">
+       <div class="w-10 h-10 rounded-lg bg-[#FF6B00]/20 flex items-center justify-center">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="2"><path d="M21 15A2 2 0 0119 17H7L3 21V5A2 2 0 015 3H19A2 2 0 0121 5V15Z" />
+        </svg>
+       </div><span class="text-sm md:text-base text-gray-300">Consultanță gratuită</span>
+      </div>
+      <div class="flex items-center gap-3 justify-center">
+       <div class="w-10 h-10 rounded-lg bg-[#FFE500]/20 flex items-center justify-center">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#FFE500" stroke-width="2"><path d="M12 2L15 8.5L22 9.5L17 14.5L18 21.5L12 18.5L6 21.5L7 14.5L2 9.5L9 8.5L12 2Z" />
+        </svg>
+       </div><span class="text-sm md:text-base text-gray-300">Printare profesională</span>
+      </div>
+     </div>
+    </div>
+   </section><!-- Reviews Slider -->
+   <section class="py-12 md:py-20 bg-[#0a0a0a]">
+    <div class="max-w-7xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Ce spun <span class="text-[#FFE500]">clienții</span> noștri</h2>
+     <p class="text-gray-400 text-center mb-10">Peste 500 de proiecte finalizate cu succes</p>
+     <div class="slider-container flex gap-4 pb-4 -mx-4 px-4"><!-- Review 1 -->
+      <div class="slide-item w-[85%] md:w-[400px] card-3d rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#FFE500] to-[#FF6B00] flex items-center justify-center text-black font-bold">
+         AM
+        </div>
+        <div>
+         <p class="font-semibold">Alexandru M.</p>
+         <p class="text-gray-500 text-sm">Inginer</p>
+        </div>
+       </div>
+       <div class="flex gap-1 mb-3"><span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span>
+       </div>
+       <p class="text-gray-300">"Calitate impecabilă și livrare rapidă. Am comandat piese pentru un prototip și au ieșit perfect. Recomand cu încredere!"</p>
+      </div><!-- Review 2 -->
+      <div class="slide-item w-[85%] md:w-[400px] card-3d rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#0066FF] flex items-center justify-center text-black font-bold">
+         EP
+        </div>
+        <div>
+         <p class="font-semibold">Elena P.</p>
+         <p class="text-gray-500 text-sm">Designer</p>
+        </div>
+       </div>
+       <div class="flex gap-1 mb-3"><span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span>
+       </div>
+       <p class="text-gray-300">"Exact ce aveam nevoie pentru prototip. Echipa a fost foarte receptivă și m-au ajutat să optimizez designul pentru printare."</p>
+      </div><!-- Review 3 -->
+      <div class="slide-item w-[85%] md:w-[400px] card-3d rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF6B00] to-[#FF0066] flex items-center justify-center text-black font-bold">
+         MC
+        </div>
+        <div>
+         <p class="font-semibold">Mihai C.</p>
+         <p class="text-gray-500 text-sm">Antreprenor</p>
+        </div>
+       </div>
+       <div class="flex gap-1 mb-3"><span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span>
+       </div>
+       <p class="text-gray-300">"Profesioniști adevărați. Am colaborat pentru o serie de 50 de piese și toate au fost perfecte. Prețuri corecte și comunicare excelentă."</p>
+      </div><!-- Review 4 -->
+      <div class="slide-item w-[85%] md:w-[400px] card-3d rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#00FF88] to-[#00D4FF] flex items-center justify-center text-black font-bold">
+         AD
+        </div>
+        <div>
+         <p class="font-semibold">Ana D.</p>
+         <p class="text-gray-500 text-sm">Hobby Creator</p>
+        </div>
+       </div>
+       <div class="flex gap-1 mb-3"><span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span> <span class="text-[#FFE500]">⭐</span>
+       </div>
+       <p class="text-gray-300">"Am comandat figurine personalizate și sunt absolut încântată! Detaliile sunt incredibile și culorile exact cum le-am cerut."</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Works Gallery -->
+   <section class="py-12 md:py-20 bg-[#1a1a1a]">
+    <div class="max-w-7xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Lucrările <span class="text-[#FFE500]">noastre</span></h2>
+     <p class="text-gray-400 text-center mb-10">De la prototipuri industriale la figurine creative</p>
+     <div class="slider-container flex gap-4 pb-4 -mx-4 px-4"><!-- Work 1 - Industrial Prototype -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Gear/Industrial Part --> <circle cx="60" cy="60" r="45" fill="none" stroke="#FFE500" stroke-width="8" /> <circle cx="60" cy="60" r="20" fill="#2a2a2a" stroke="#FFE500" stroke-width="4" /> <!-- Teeth --> <rect x="55" y="5" width="10" height="15" fill="#FFE500" rx="2" /> <rect x="55" y="100" width="10" height="15" fill="#FFE500" rx="2" /> <rect x="5" y="55" width="15" height="10" fill="#FFE500" rx="2" /> <rect x="100" y="55" width="15" height="10" fill="#FFE500" rx="2" /> <!-- Diagonal teeth --> <rect x="20" y="20" width="10" height="15" fill="#FFE500" rx="2" transform="rotate(45 25 27)" /> <rect x="90" y="20" width="10" height="15" fill="#FFE500" rx="2" transform="rotate(-45 95 27)" /> <rect x="20" y="85" width="10" height="15" fill="#FFE500" rx="2" transform="rotate(-45 25 92)" /> <rect x="90" y="85" width="10" height="15" fill="#FFE500" rx="2" transform="rotate(45 95 92)" /> <!-- Center hole --> <circle cx="60" cy="60" r="8" fill="#0a0a0a" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#FFE500]">Prototip Industrial</p>
+         <p class="text-sm text-gray-400">Piese mecanice</p>
+        </div>
+       </div>
+      </div><!-- Work 2 - Mechanical Parts -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Bracket/Mounting Part --> <path d="M20 30 L100 30 L100 50 L80 50 L80 90 L40 90 L40 50 L20 50 Z" fill="#00D4FF" stroke="#00D4FF" stroke-width="2" /> <circle cx="30" cy="40" r="6" fill="#0a0a0a" /> <circle cx="90" cy="40" r="6" fill="#0a0a0a" /> <circle cx="60" cy="70" r="10" fill="#0a0a0a" /> <circle cx="60" cy="70" r="5" fill="#00D4FF" /> <!-- Detail lines --> <rect x="45" y="45" width="30" height="3" fill="#1a1a1a" rx="1" /> <rect x="50" y="80" width="20" height="3" fill="#1a1a1a" rx="1" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#00D4FF]">Piese Mecanice</p>
+         <p class="text-sm text-gray-400">Componente tehnice</p>
+        </div>
+       </div>
+      </div><!-- Work 3 - Figurines -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Robot Figurine --> <!-- Head --> <rect x="40" y="15" width="40" height="30" rx="5" fill="#FF6B00" /> <rect x="48" y="22" width="8" height="8" rx="2" fill="#FFE500" /> <rect x="64" y="22" width="8" height="8" rx="2" fill="#FFE500" /> <rect x="52" y="35" width="16" height="4" rx="2" fill="#1a1a1a" /> <!-- Antenna --> <rect x="58" y="5" width="4" height="12" fill="#FF6B00" /> <circle cx="60" cy="5" r="4" fill="#FFE500" /> <!-- Body --> <rect x="35" y="48" width="50" height="45" rx="5" fill="#FF6B00" /> <circle cx="60" cy="65" r="8" fill="#FFE500" /> <rect x="42" y="78" width="36" height="8" rx="2" fill="#1a1a1a" /> <!-- Arms --> <rect x="15" y="50" width="18" height="10" rx="3" fill="#FF6B00" /> <rect x="87" y="50" width="18" height="10" rx="3" fill="#FF6B00" /> <!-- Legs --> <rect x="42" y="95" width="12" height="20" rx="3" fill="#FF6B00" /> <rect x="66" y="95" width="12" height="20" rx="3" fill="#FF6B00" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#FF6B00]">Figurine Custom</p>
+         <p class="text-sm text-gray-400">Design personalizat</p>
+        </div>
+       </div>
+      </div><!-- Work 4 - Electronic Cases -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Electronic Enclosure --> <rect x="15" y="25" width="90" height="70" rx="8" fill="#2a2a2a" stroke="#FFE500" stroke-width="2" /> <rect x="20" y="30" width="80" height="60" rx="5" fill="#1a1a1a" /> <!-- Display --> <rect x="25" y="35" width="50" height="30" rx="3" fill="#00D4FF" opacity="0.3" /> <rect x="30" y="40" width="40" height="3" fill="#00D4FF" /> <rect x="30" y="47" width="30" height="3" fill="#00D4FF" opacity="0.6" /> <rect x="30" y="54" width="35" height="3" fill="#00D4FF" opacity="0.4" /> <!-- Buttons --> <circle cx="88" cy="45" r="6" fill="#FFE500" /> <circle cx="88" cy="62" r="6" fill="#FF6B00" /> <!-- Vents --> <rect x="25" y="72" width="70" height="2" rx="1" fill="#333" /> <rect x="25" y="77" width="70" height="2" rx="1" fill="#333" /> <rect x="25" y="82" width="70" height="2" rx="1" fill="#333" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#FFE500]">Carcase Electronice</p>
+         <p class="text-sm text-gray-400">Enclosure custom</p>
+        </div>
+       </div>
+      </div><!-- Work 5 - Architectural Model -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Building Model --> <!-- Main structure --> <rect x="30" y="40" width="60" height="60" fill="#00D4FF" /> <!-- Windows --> <rect x="36" y="46" width="12" height="12" fill="#1a1a1a" /> <rect x="54" y="46" width="12" height="12" fill="#FFE500" /> <rect x="72" y="46" width="12" height="12" fill="#1a1a1a" /> <rect x="36" y="64" width="12" height="12" fill="#FFE500" /> <rect x="54" y="64" width="12" height="12" fill="#1a1a1a" /> <rect x="72" y="64" width="12" height="12" fill="#FFE500" /> <rect x="36" y="82" width="12" height="12" fill="#1a1a1a" /> <rect x="54" y="82" width="12" height="18" fill="#FF6B00" /> <rect x="72" y="82" width="12" height="12" fill="#1a1a1a" /> <!-- Roof --> <polygon points="25,40 60,15 95,40" fill="#2a2a2a" stroke="#FFE500" stroke-width="2" /> <!-- Base --> <rect x="20" y="100" width="80" height="8" rx="2" fill="#333" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#00D4FF]">Machete Arhitecturale</p>
+         <p class="text-sm text-gray-400">Scale models</p>
+        </div>
+       </div>
+      </div><!-- Work 6 - Custom Objects -->
+      <div class="slide-item w-[280px] md:w-[320px] rounded-2xl overflow-hidden group">
+       <div class="aspect-square bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] p-6 flex items-center justify-center relative">
+        <svg viewbox="0 0 120 120" class="w-full h-full max-w-[200px]"><!-- Custom Phone Stand --> <path d="M30 100 L30 60 Q30 40 50 40 L70 40 Q90 40 90 60 L90 100 Z" fill="#FFE500" /> <rect x="40" y="30" width="40" height="70" rx="5" fill="#1a1a1a" stroke="#333" stroke-width="2" /> <!-- Phone screen --> <rect x="45" y="35" width="30" height="55" rx="3" fill="#00D4FF" opacity="0.3" /> <circle cx="60" cy="82" r="4" fill="#333" /> <!-- Stand details --> <rect x="35" y="95" width="50" height="5" rx="2" fill="#FF6B00" /> <!-- Lego studs on stand --> <circle cx="40" cy="75" r="4" fill="#0a0a0a" opacity="0.3" /> <circle cx="40" cy="88" r="4" fill="#0a0a0a" opacity="0.3" /> <circle cx="80" cy="75" r="4" fill="#0a0a0a" opacity="0.3" /> <circle cx="80" cy="88" r="4" fill="#0a0a0a" opacity="0.3" />
+        </svg>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+         <p class="font-semibold text-[#FFE500]">Obiecte Personalizate</p>
+         <p class="text-sm text-gray-400">Gadgeturi unice</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Services -->
+   <section class="py-12 md:py-20 bg-[#0a0a0a] relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-[#FFE500]/5 rounded-full blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Serviciile <span class="text-[#FFE500]">noastre</span></h2>
+     <p class="text-gray-400 text-center mb-10 max-w-2xl mx-auto">Oferim soluții complete de printare 3D pentru orice nevoie</p>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Service 1 -->
+      <div class="card-3d rounded-2xl p-6 text-center">
+       <div class="w-16 h-16 mx-auto mb-4 bg-[#FFE500]/20 rounded-xl flex items-center justify-center">
+        <svg width="32" height="32" viewbox="0 0 32 32" fill="none"><path d="M16 2L28 8V24L16 30L4 24V8L16 2Z" stroke="#FFE500" stroke-width="2" fill="none" /> <path d="M16 12L22 15V21L16 24L10 21V15L16 12Z" fill="#FFE500" />
+        </svg>
+       </div>
+       <h3 class="font-orbitron font-bold text-lg mb-2">Modelare 3D</h3>
+       <p class="text-gray-400 text-sm">Design personalizat de la zero sau optimizarea modelelor existente</p>
+      </div><!-- Service 2 -->
+      <div class="card-3d rounded-2xl p-6 text-center">
+       <div class="w-16 h-16 mx-auto mb-4 bg-[#00D4FF]/20 rounded-xl flex items-center justify-center">
+        <svg width="32" height="32" viewbox="0 0 32 32" fill="none"><rect x="6" y="10" width="20" height="16" rx="2" stroke="#00D4FF" stroke-width="2" /> <path d="M10 6H22" stroke="#00D4FF" stroke-width="2" /> <path d="M14 18L18 18" stroke="#00D4FF" stroke-width="2" /> <circle cx="16" cy="22" r="2" fill="#00D4FF" />
+        </svg>
+       </div>
+       <h3 class="font-orbitron font-bold text-lg mb-2">Printare Profesională</h3>
+       <p class="text-gray-400 text-sm">Echipamente de ultimă generație și materiale de înaltă calitate</p>
+      </div><!-- Service 3 -->
+      <div class="card-3d rounded-2xl p-6 text-center">
+       <div class="w-16 h-16 mx-auto mb-4 bg-[#FF6B00]/20 rounded-xl flex items-center justify-center">
+        <svg width="32" height="32" viewbox="0 0 32 32" fill="none"><path d="M16 4L20 12H28L22 18L24 26L16 22L8 26L10 18L4 12H12L16 4Z" stroke="#FF6B00" stroke-width="2" fill="none" /> <circle cx="16" cy="16" r="4" fill="#FF6B00" />
+        </svg>
+       </div>
+       <h3 class="font-orbitron font-bold text-lg mb-2">Prototipuri Rapide</h3>
+       <p class="text-gray-400 text-sm">Transformăm ideile în obiecte funcționale în timp record</p>
+      </div><!-- Service 4 -->
+      <div class="card-3d rounded-2xl p-6 text-center">
+       <div class="w-16 h-16 mx-auto mb-4 bg-[#FFE500]/20 rounded-xl flex items-center justify-center">
+        <svg width="32" height="32" viewbox="0 0 32 32" fill="none"><rect x="4" y="8" width="8" height="8" rx="1" fill="#FFE500" /> <rect x="14" y="8" width="8" height="8" rx="1" fill="#FFE500" /> <rect x="4" y="18" width="8" height="8" rx="1" fill="#FFE500" /> <rect x="14" y="18" width="8" height="8" rx="1" fill="#FFE500" /> <path d="M24 12H28M24 20H28" stroke="#FFE500" stroke-width="2" />
+        </svg>
+       </div>
+       <h3 class="font-orbitron font-bold text-lg mb-2">Producție la Comandă</h3>
+       <p class="text-gray-400 text-sm">Serii mici sau medii de piese identice sau personalizate</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- How It Works -->
+   <section class="py-12 md:py-20 bg-[#1a1a1a]">
+    <div class="max-w-7xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Cum <span class="text-[#FFE500]">funcționează</span></h2>
+     <p class="text-gray-400 text-center mb-12">3 pași simpli de la idee la realitate</p>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative"><!-- Connection Line (Desktop) -->
+      <div class="hidden md:block absolute top-16 left-1/4 right-1/4 h-1 bg-gradient-to-r from-[#FFE500] via-[#00D4FF] to-[#FF6B00]"></div><!-- Step 1 -->
+      <div class="text-center relative">
+       <div class="w-16 h-16 mx-auto mb-6 bg-[#FFE500] rounded-2xl flex items-center justify-center text-black font-orbitron font-bold text-2xl relative z-10">
+        1
+       </div>
+       <h3 class="font-orbitron font-bold text-xl mb-3">Ne trimiți ideea</h3>
+       <p class="text-gray-400">Trimite-ne o schiță, un fișier 3D sau doar o descriere a ce vrei să creezi.</p>
+       <div class="mt-4 flex justify-center gap-2"><span class="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs text-[#FFE500]">STL</span> <span class="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs text-[#00D4FF]">OBJ</span> <span class="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs text-[#FF6B00]">STEP</span>
+       </div>
+      </div><!-- Step 2 -->
+      <div class="text-center relative">
+       <div class="w-16 h-16 mx-auto mb-6 bg-[#00D4FF] rounded-2xl flex items-center justify-center text-black font-orbitron font-bold text-2xl relative z-10">
+        2
+       </div>
+       <h3 class="font-orbitron font-bold text-xl mb-3">Modelăm și printăm</h3>
+       <p class="text-gray-400">Echipa noastră pregătește modelul și îl printează cu precizie maximă.</p>
+       <div class="mt-4"><span class="px-4 py-2 bg-[#2a2a2a] rounded-full text-sm text-gray-300">⏱️ Timp mediu: 2-5 zile</span>
+       </div>
+      </div><!-- Step 3 -->
+      <div class="text-center relative">
+       <div class="w-16 h-16 mx-auto mb-6 bg-[#FF6B00] rounded-2xl flex items-center justify-center text-black font-orbitron font-bold text-2xl relative z-10">
+        3
+       </div>
+       <h3 class="font-orbitron font-bold text-xl mb-3">Livrăm gratuit</h3>
+       <p class="text-gray-400">Piesa finisată ajunge la ușa ta, gratuit, oriunde în România.</p>
+       <div class="mt-4"><span class="px-4 py-2 bg-[#2a2a2a] rounded-full text-sm text-[#00FF00]">🚚 Livrare gratuită</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- For Who -->
+   <section class="py-12 md:py-20 bg-[#0a0a0a]">
+    <div class="max-w-7xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Pentru <span class="text-[#FFE500]">cine</span> este</h2>
+     <p class="text-gray-400 text-center mb-10">Soluții adaptate nevoilor tale</p>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"><!-- For Business -->
+      <div class="card-3d rounded-2xl p-8 border-l-4 border-[#FFE500]">
+       <div class="flex items-center gap-4 mb-6">
+        <div class="w-14 h-14 bg-[#FFE500]/20 rounded-xl flex items-center justify-center">
+         <svg width="28" height="28" viewbox="0 0 28 28" fill="none"><rect x="4" y="8" width="20" height="16" rx="2" stroke="#FFE500" stroke-width="2" /> <path d="M8 8V6C8 4.89543 8.89543 4 10 4H18C19.1046 4 20 4.89543 20 6V8" stroke="#FFE500" stroke-width="2" /> <path d="M14 14V18" stroke="#FFE500" stroke-width="2" /> <circle cx="14" cy="14" r="2" fill="#FFE500" />
+         </svg>
+        </div>
+        <h3 class="font-orbitron font-bold text-xl text-[#FFE500]">Pentru Firme</h3>
+       </div>
+       <ul class="space-y-3">
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#FFE500]">✓</span> Prototipuri funcționale</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#FFE500]">✓</span> Producție în serii mici</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#FFE500]">✓</span> Piese tehnice de precizie</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#FFE500]">✓</span> Soluții industriale</li>
+       </ul>
+      </div><!-- For Enthusiasts -->
+      <div class="card-3d rounded-2xl p-8 border-l-4 border-[#00D4FF]">
+       <div class="flex items-center gap-4 mb-6">
+        <div class="w-14 h-14 bg-[#00D4FF]/20 rounded-xl flex items-center justify-center">
+         <svg width="28" height="28" viewbox="0 0 28 28" fill="none"><path d="M14 4L17 10L24 11L19 16L20 23L14 20L8 23L9 16L4 11L11 10L14 4Z" stroke="#00D4FF" stroke-width="2" /> <circle cx="14" cy="14" r="3" fill="#00D4FF" />
+         </svg>
+        </div>
+        <h3 class="font-orbitron font-bold text-xl text-[#00D4FF]">Pentru Pasiona��i</h3>
+       </div>
+       <ul class="space-y-3">
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#00D4FF]">✓</span> Figurine și personaje</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#00D4FF]">✓</span> Gadgeturi unice</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#00D4FF]">✓</span> Proiecte DIY</li>
+        <li class="flex items-center gap-3 text-gray-300"><span class="text-[#00D4FF]">✓</span> Cadouri personalizate</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- Benefits -->
+   <section class="py-12 md:py-20 bg-[#1a1a1a]">
+    <div class="max-w-7xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">De ce să alegi <span class="text-[#FFE500]">printIT</span></h2>
+     <p class="text-gray-400 text-center mb-10">Avantajele care fac diferența</p>
+     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div class="bg-[#2a2a2a] rounded-xl p-4 text-center border border-gray-700 hover:border-[#FFE500] transition-all">
+       <div class="text-3xl mb-2">
+        📐
+       </div>
+       <p class="text-sm text-gray-300">Orice formă și dimensiune</p>
+      </div>
+      <div class="bg-[#2a2a2a] rounded-xl p-4 text-center border border-gray-700 hover:border-[#00D4FF] transition-all">
+       <div class="text-3xl mb-2">
+        🧪
+       </div>
+       <p class="text-sm text-gray-300">Materiale profesionale</p>
+      </div>
+      <div class="bg-[#2a2a2a] rounded-xl p-4 text-center border border-gray-700 hover:border-[#FF6B00] transition-all">
+       <div class="text-3xl mb-2">
+        🎯
+       </div>
+       <p class="text-sm text-gray-300">Precizie ridicată</p>
+      </div>
+      <div class="bg-[#2a2a2a] rounded-xl p-4 text-center border border-gray-700 hover:border-[#FFE500] transition-all">
+       <div class="text-3xl mb-2">
+        ⚡
+       </div>
+       <p class="text-sm text-gray-300">Termene rapide</p>
+      </div>
+      <div class="bg-[#2a2a2a] rounded-xl p-4 text-center border border-gray-700 hover:border-[#00D4FF] transition-all col-span-2 md:col-span-1">
+       <div class="text-3xl mb-2">
+        💬
+       </div>
+       <p class="text-sm text-gray-300">Consultanță gratuită</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Mini FAQ -->
+   <section class="py-12 md:py-20 bg-[#0a0a0a]">
+    <div class="max-w-3xl mx-auto px-4">
+     <h2 class="font-orbitron text-2xl md:text-4xl font-bold text-center mb-4">Întrebări <span class="text-[#FFE500]">frecvente</span></h2>
+     <p class="text-gray-400 text-center mb-10">Răspunsuri rapide la întrebările tale</p>
+     <div class="space-y-4" id="faq-container"><!-- FAQ 1 -->
+      <div class="faq-item card-3d rounded-xl overflow-hidden"><button class="w-full px-6 py-4 flex items-center justify-between text-left" onclick="toggleFaq(this)"> <span class="font-semibold">Cât costă printarea 3D?</span>
+        <svg class="w-5 h-5 text-[#FFE500] transform transition-transform faq-arrow" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg></button>
+       <div class="faq-content hidden px-6 pb-4">
+        <p class="text-gray-400">Prețul depinde de dimensiune, material și complexitate. Trimite-ne modelul și îți oferim o cotație gratuită în 24h!</p>
+       </div>
+      </div><!-- FAQ 2 -->
+      <div class="faq-item card-3d rounded-xl overflow-hidden"><button class="w-full px-6 py-4 flex items-center justify-between text-left" onclick="toggleFaq(this)"> <span class="font-semibold">În ce materiale printați?</span>
+        <svg class="w-5 h-5 text-[#FFE500] transform transition-transform faq-arrow" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg></button>
+       <div class="faq-content hidden px-6 pb-4">
+        <p class="text-gray-400">Lucrăm cu PLA, PETG, ABS, TPU flexibil, rășină și multe altele. Te sfătuim să alegi materialul potrivit pentru proiectul tău.</p>
+       </div>
+      </div><!-- FAQ 3 -->
+      <div class="faq-item card-3d rounded-xl overflow-hidden"><button class="w-full px-6 py-4 flex items-center justify-between text-left" onclick="toggleFaq(this)"> <span class="font-semibold">Pot trimite un fișier STL?</span>
+        <svg class="w-5 h-5 text-[#FFE500] transform transition-transform faq-arrow" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg></button>
+       <div class="faq-content hidden px-6 pb-4">
+        <p class="text-gray-400">Da! Acceptăm STL, OBJ, STEP, 3MF și alte formate. Dacă ai nevoie de ajutor cu modelarea, ne ocupăm noi.</p>
+       </div>
+      </div><!-- FAQ 4 -->
+      <div class="faq-item card-3d rounded-xl overflow-hidden"><button class="w-full px-6 py-4 flex items-center justify-between text-left" onclick="toggleFaq(this)"> <span class="font-semibold">Faceți și design/modelare?</span>
+        <svg class="w-5 h-5 text-[#FFE500] transform transition-transform faq-arrow" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg></button>
+       <div class="faq-content hidden px-6 pb-4">
+        <p class="text-gray-400">Absolut! Echipa noastră de designeri poate crea modelul 3D de la zero sau poate optimiza un design existent.</p>
+       </div>
+      </div><!-- FAQ 5 -->
+      <div class="faq-item card-3d rounded-xl overflow-hidden"><button class="w-full px-6 py-4 flex items-center justify-between text-left" onclick="toggleFaq(this)"> <span class="font-semibold">Cât durează livrarea?</span>
+        <svg class="w-5 h-5 text-[#FFE500] transform transition-transform faq-arrow" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg></button>
+       <div class="faq-content hidden px-6 pb-4">
+        <p class="text-gray-400">Livrarea este gratuită în toată România și durează 1-3 zile lucrătoare după finalizarea printării.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Form -->
+   <section id="contact-section" class="form-section py-12 md:py-20">
+    <div class="max-w-2xl mx-auto px-4">
+     <div class="text-center mb-10">
+      <h2 id="form-title" class="font-orbitron text-2xl md:text-4xl font-bold text-black mb-4">Spune-ne ce vrei să printăm</h2>
+      <p class="text-black/70">Completează formularul și te contactăm în maxim 24h cu o ofertă personalizată.</p>
+     </div>
+     <form id="contact-form" class="bg-[#0a0a0a] rounded-2xl p-6 md:p-10 space-y-6">
+      <div><label for="name" class="block text-sm font-semibold mb-2 text-white">Nume și prenume *</label> <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-gray-700 text-white placeholder-gray-500 focus:border-[#FFE500] transition-all" placeholder="Ion Popescu">
+      </div>
+      <div><label for="email" class="block text-sm font-semibold mb-2 text-white">Email *</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-gray-700 text-white placeholder-gray-500 focus:border-[#FFE500] transition-all" placeholder="ion@email.com">
+      </div>
+      <div><label for="phone" class="block text-sm font-semibold mb-2 text-white">Telefon *</label> <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-gray-700 text-white placeholder-gray-500 focus:border-[#FFE500] transition-all" placeholder="0733 254 490">
+      </div>
+      <div><label for="message" class="block text-sm font-semibold mb-2 text-white">Descrie proiectul tău</label> <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-gray-700 text-white placeholder-gray-500 focus:border-[#FFE500] transition-all resize-none" placeholder="Spune-ne ce ai în minte..."></textarea>
+      </div><button type="submit" class="w-full bg-[#FFE500] text-black font-bold text-lg py-4 rounded-xl hover:bg-[#FFC800] transition-all glow-yellow"> Trimite cererea </button>
+      <p class="text-center text-gray-500 text-sm">🔒 Datele tale sunt în siguranță. Nu facem spam.</p>
+     </form><!-- Success Message (hidden by default) -->
+     <div id="success-message" class="hidden bg-[#0a0a0a] rounded-2xl p-10 text-center">
+      <div class="w-20 h-20 mx-auto mb-6 bg-[#00FF00]/20 rounded-full flex items-center justify-center">
+       <svg width="40" height="40" viewbox="0 0 40 40" fill="none"><path d="M10 20L17 27L30 13" stroke="#00FF00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+       </svg>
+      </div>
+      <h3 class="font-orbitron text-2xl font-bold text-white mb-3">Cererea a fost trimisă!</h3>
+      <p class="text-gray-400">Te vom contacta în maxim 24 de ore cu o ofertă personalizată.</p>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="bg-[#0a0a0a] border-t border-gray-800 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6"><!-- Logo -->
+      <div class="flex items-center gap-2">
+       <svg width="32" height="32" viewbox="0 0 40 40" fill="none"><rect x="5" y="5" width="12" height="12" rx="2" fill="#FFE500" /> <rect x="20" y="5" width="12" height="12" rx="2" fill="#00D4FF" /> <rect x="5" y="20" width="12" height="12" rx="2" fill="#FF6B00" /> <rect x="20" y="20" width="12" height="12" rx="2" fill="#FFE500" /> <circle cx="11" cy="11" r="3" fill="#0a0a0a" /> <circle cx="26" cy="11" r="3" fill="#0a0a0a" /> <circle cx="11" cy="26" r="3" fill="#0a0a0a" /> <circle cx="26" cy="26" r="3" fill="#0a0a0a" />
+       </svg><span class="font-orbitron text-lg font-bold">print<span class="text-[#FFE500]">IT</span></span>
+      </div><!-- Contact -->
+      <div class="flex items-center gap-4"><a href="tel:+40722123456" class="flex items-center gap-2 text-gray-400 hover:text-[#FFE500] transition-all">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+        </svg><span>0722 123 456</span> </a>
+      </div><!-- Social -->
+      <div class="flex items-center gap-4"><a href="#" class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center text-gray-400 hover:text-[#FFE500] hover:bg-[#2a2a2a] transition-all" aria-label="Instagram">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" /> <circle cx="12" cy="12" r="4" /> <circle cx="18" cy="6" r="1" fill="currentColor" />
+        </svg></a> <a href="#" class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center text-gray-400 hover:text-[#00D4FF] hover:bg-[#2a2a2a] transition-all" aria-label="Facebook">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+        </svg></a> <a href="#" class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center text-gray-400 hover:text-[#00FF00] hover:bg-[#2a2a2a] transition-all" aria-label="WhatsApp">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+        </svg></a>
+      </div>
+     </div>
+     <div class="mt-8 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+      © 2024 printIT. Toate drepturile rezervate. 🇷🇴 Made in Romania
+     </div>
+    </div>
+   </footer><!-- Sticky CTA (Mobile Only) -->
+   <div class="sticky-cta md:hidden"><a href="#contact-section" class="block w-full bg-[#FFE500] text-black font-bold text-center py-4 rounded-xl glow-yellow"> Solicită ofertă gratuită </a>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      hero_title: 'Transformăm ideile tale în obiecte reale cu printare 3D.',
+      hero_subtitle: 'Modelare 3D • Printare profesională • Livrare gratuită în România',
+      cta_button_text: 'Primește ofertă gratuită',
+      form_title: 'Spune-ne ce vrei să printăm',
+      background_color: '#0a0a0a',
+      accent_color: '#FFE500',
+      text_color: '#ffffff',
+      secondary_color: '#1a1a1a',
+      highlight_color: '#00D4FF'
+    };
+
+    let config = { ...defaultConfig };
+
+    // FAQ Toggle Function
+    function toggleFaq(button) {
+      const content = button.nextElementSibling;
+      const arrow = button.querySelector('.faq-arrow');
+      const isOpen = !content.classList.contains('hidden');
+
+      // Close all other FAQs
+      document.querySelectorAll('.faq-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.faq-arrow').forEach(el => el.classList.remove('rotate-180'));
+
+      if (!isOpen) {
+        content.classList.remove('hidden');
+        arrow.classList.add('rotate-180');
+      }
+    }
+
+    // Form Submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Hide form, show success message
+      this.classList.add('hidden');
+      document.getElementById('success-message').classList.remove('hidden');
+    });
+
+    // Element SDK Integration
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+
+      // Update Hero Title
+      const heroTitle = document.getElementById('hero-title');
+      if (heroTitle) {
+        const title = config.hero_title || defaultConfig.hero_title;
+        heroTitle.innerHTML = title.replace('obiecte reale', '<span class="text-[#FFE500]">obiecte reale</span>');
+      }
+
+      // Update Hero Subtitle
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      if (heroSubtitle) {
+        heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      }
+
+      // Update CTA Buttons
+      const ctaButton = document.getElementById('cta-button');
+      if (ctaButton) {
+        ctaButton.textContent = config.cta_button_text || defaultConfig.cta_button_text;
+      }
+
+      // Update Form Title
+      const formTitle = document.getElementById('form-title');
+      if (formTitle) {
+        formTitle.textContent = config.form_title || defaultConfig.form_title;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              config.secondary_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.highlight_color || defaultConfig.highlight_color,
+            set: (value) => {
+              config.highlight_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ highlight_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['cta_button_text', config.cta_button_text || defaultConfig.cta_button_text],
+        ['form_title', config.form_title || defaultConfig.form_title]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c99043732e4e4ab',t:'MTc3MDM2MzgwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
