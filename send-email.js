@@ -16,7 +16,7 @@ window.onload = function () {
     const templateParams = {
       name: document.getElementById("name").value,
       email: document.getElementById("email").value,
-      title: document.getElementById("subject").value,
+      phone: document.getElementById("phone").value, // Updated to match the form
       message: document.getElementById("message").value,
     };
 
