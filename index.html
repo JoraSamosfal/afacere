@@ -811,36 +811,9 @@
       © 2024 printIT. Toate drepturile rezervate. 🇷🇴 Made in Romania
      </div>
     </div>
-   <footer>
-  <!-- Sticky CTA (Mobile Only) -->
-  <div id="stickyCTA" class="sticky-cta md:hidden fixed bottom-4 left-0 w-full px-4 transition-transform duration-300 transform translate-y-full">
-    <a href="#contact-section" class="block w-full bg-[#FFE500] text-black font-bold text-center py-4 rounded-xl glow-yellow">
-      Solicită ofertă gratuită
-    </a>
-  </div>
-</footer>
-
-<script>
-  let lastScroll = 0;
-  const cta = document.getElementById('stickyCTA');
-
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > lastScroll && currentScroll > 100) {
-      // Scroll down → arată butonul
-      cta.classList.remove('translate-y-full');
-      cta.classList.add('translate-y-0');
-    } else if (currentScroll < lastScroll) {
-      // Scroll up → ascunde butonul
-      cta.classList.remove('translate-y-0');
-      cta.classList.add('translate-y-full');
-    }
-
-    lastScroll = currentScroll;
-  });
-</script>
-
+   </footer><!-- Sticky CTA (Mobile Only) -->
+   <div class="sticky-cta md:hidden"><a href="#contact-section" class="block w-full bg-[#FFE500] text-black font-bold text-center py-4 rounded-xl glow-yellow"> Solicită ofertă gratuită </a>
+   </div>
   </div>
   <script>
     // Default configuration
